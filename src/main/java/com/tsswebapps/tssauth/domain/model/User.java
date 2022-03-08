@@ -1,9 +1,11 @@
 package com.tsswebapps.tssauth.domain.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.tsswebapps.tssauth.dto.UserInputDto;
+import com.tsswebapps.tssauth.dto.UserDto;
 
 @Entity
 @Table(name = "users")
@@ -38,12 +40,11 @@ public class User {
 	private String secret;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Roles> role = new ArrayList<Roles>();
+	private List<Role> role = new ArrayList<>();
 	
 	public User() {}
 	
-	public User(Long id, String email, String name, String password, String secret, List<Roles> role) {
-		super();
+	public User(Long id, String email, String name, String password, String secret, List<Role> role) {
 		this.id = id;
 		this.email = email;
 		this.name = name;
@@ -92,12 +93,16 @@ public class User {
 		this.secret = secret;
 	}
 
-	public List<Roles> getRole() {
-		return role;
+	public List<Role> getRole() {
+		return Collections.unmodifiableList(this.role);
 	}
 
-	public void setRole(List<Roles> role) {
-		this.role = role;
+	public void setRole(Role role) {
+		addRole(role);
+	}
+	
+	private void addRole(Role role) {
+		this.role.add(role);
 	}
 
 	@Override
@@ -123,14 +128,17 @@ public class User {
 				&& Objects.equals(role, other.role);
 	}
 	
-	public static User userInputDtoToUser(UserInputDto user) {
-		return new User(user.getId(), user.getEmail(), user.getName(), user.getPassword(), getSecretKey(), null);
+	public static User userInputDtoToUser(UserDto user) {
+		List<Role> roles = user.getRolesDto().stream()
+				.map(r -> new Role(r.getId(), r.getDescription()))
+				.collect(Collectors.toList());
+		
+		return new User(user.getId(), user.getEmail(), user.getName(), user.getPassword(), getSecretKey(), roles);
 	}
 	
 	public static String getSecretKey() {
 		UUID uuid = UUID.randomUUID();
-		String string = uuid.toString();
-		return string;
+		return uuid.toString();
 	}
 
 }

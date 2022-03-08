@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tsswebapps.tssauth.dto.UserInputDto;
+import com.tsswebapps.tssauth.dto.UserDto;
 import com.tsswebapps.tssauth.infra.service.UserService;
 
 @RestController
@@ -17,9 +17,8 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
-	public UserInputDto saveUser(@RequestBody UserInputDto user) {
+	public UserDto saveUser(@RequestBody UserDto user) {
 		System.out.println(user);
-		UserInputDto userSaved = userService.saveUser(user);
-		return userSaved;
+		return userService.saveUser(user);
 	}
 }

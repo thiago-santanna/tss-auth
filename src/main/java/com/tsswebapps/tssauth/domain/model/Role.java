@@ -9,9 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.tsswebapps.tssauth.dto.RoleDto;
+
 @Entity
 @Table(name = "roles")
-public class Roles {
+public class Role {
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -54,8 +56,20 @@ public class Roles {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Roles other = (Roles) obj;
+		Role other = (Role) obj;
 		return Objects.equals(description, other.description) && Objects.equals(id, other.id);
+	}
+	
+	public Role() {
+	}
+	
+	public Role(Long id, String description) {
+		this.id = id;
+		this.description = description;
+	}
+
+	public static Role roleDtoToRole(RoleDto roleDto) {
+		return new Role(roleDto.getId(), roleDto.getDescription());
 	}
 
 }
