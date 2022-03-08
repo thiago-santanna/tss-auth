@@ -2,8 +2,22 @@ package com.tsswebapps.tssauth.domain.model;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "roles")
 public class Roles {
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Long id;
+	
+	@Column(length = 6)
 	private String description;
 
 	public Long getId() {

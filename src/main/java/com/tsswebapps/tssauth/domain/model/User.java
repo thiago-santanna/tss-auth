@@ -1,16 +1,42 @@
 package com.tsswebapps.tssauth.domain.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
 public class User {
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Long id;
+	
+	@Column(length = 100, nullable = false, unique = true)
 	private String email;
+	
+	@Column(length = 100)
 	private String name;
+	
+	@Column(nullable = false)
 	private String password;
+	
+	@Column(nullable = false)
 	private UUID secret;
-	private List<Roles> role;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Roles> role = new ArrayList<Roles>();
 
 	public Long getId() {
 		return id;
