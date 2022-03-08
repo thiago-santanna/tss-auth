@@ -35,14 +35,14 @@ public class User {
 	private String password;
 	
 	@Column(nullable = false)
-	private UUID secret;
+	private String secret;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Roles> role = new ArrayList<Roles>();
 	
 	public User() {}
 	
-	public User(Long id, String email, String name, String password, UUID secret, List<Roles> role) {
+	public User(Long id, String email, String name, String password, String secret, List<Roles> role) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -84,11 +84,11 @@ public class User {
 		this.password = password;
 	}
 
-	public UUID getSecret() {
+	public String getSecret() {
 		return secret;
 	}
 
-	public void setSecret(UUID secret) {
+	public void setSecret(String secret) {
 		this.secret = secret;
 	}
 
@@ -123,8 +123,14 @@ public class User {
 				&& Objects.equals(role, other.role);
 	}
 	
-	public UserInputDto toUserInputDto() {
-		return new UserInputDto(this.id, this.name, this.email, this.password);
+	public static User userInputDtoToUser(UserInputDto user) {
+		return new User(user.getId(), user.getEmail(), user.getName(), user.getPassword(), getSecretKey(), null);
+	}
+	
+	public static String getSecretKey() {
+		UUID uuid = UUID.randomUUID();
+		String string = uuid.toString();
+		return string;
 	}
 
 }

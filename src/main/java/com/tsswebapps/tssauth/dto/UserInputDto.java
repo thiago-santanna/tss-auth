@@ -31,8 +31,13 @@ public class UserInputDto {
 		return password;
 	}
 	
-	public User toUser() {
-		return new User(this.id, this.email, this.name, this.password, null, null);
+	public static UserInputDto userToUserInputDto(User user) {
+		return new UserInputDto(user.getId(), user.getName(), user.getEmail(), null);
+	}
+
+	@Override
+	public String toString() {
+		return "UserInputDto [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
 	}
 
 }

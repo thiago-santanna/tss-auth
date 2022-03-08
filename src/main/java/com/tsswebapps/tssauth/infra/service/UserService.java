@@ -14,9 +14,8 @@ public class UserService {
 	private UserRepository repository;
 	
 	public UserInputDto saveUser(UserInputDto userDto) {
-		User user = userDto.toUser();
-		repository.save(user);		
-		return user.toUserInputDto();
+		User user = repository.save(User.userInputDtoToUser(userDto));				
+		return UserInputDto.userToUserInputDto(user);
 	}
 	
 	
