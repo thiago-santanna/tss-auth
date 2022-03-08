@@ -15,10 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.tsswebapps.tssauth.dto.UserInputDto;
+
 @Entity
 @Table(name = "users")
 public class User {
-	
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
@@ -37,6 +39,18 @@ public class User {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Roles> role = new ArrayList<Roles>();
+	
+	public User() {}
+	
+	public User(Long id, String email, String name, String password, UUID secret, List<Roles> role) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		this.secret = secret;
+		this.role = role;
+	}
 
 	public Long getId() {
 		return id;
@@ -107,6 +121,10 @@ public class User {
 		User other = (User) obj;
 		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
 				&& Objects.equals(role, other.role);
+	}
+	
+	public UserInputDto toUserInputDto() {
+		return new UserInputDto(this.id, this.name, this.email, this.password);
 	}
 
 }
