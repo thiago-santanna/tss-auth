@@ -12,8 +12,8 @@ public class TokenController {
 	@Autowired
 	private TokenService tokenService;
 
-	public TokenDto recuperaToken() {
-		TokenDto token = tokenService.recuperaToken();
+	public TokenDto gerarToken() {
+		TokenDto token = tokenService.execute();
 		return token;
 	}
 }

@@ -12,7 +12,9 @@ public class TokenService {
 	@Autowired
 	private TokenRepository tokenRepository;
 	
-	public TokenDto recuperaToken() {
+	public TokenDto execute() {
+		//Vou ter algumas classes para gerar o token e salvar em seguida e retornar um Dto para o front pegar
+		
 		return null;
 	}
 	
