@@ -8,9 +8,9 @@ public class TokenDto {
 
 	private String token_type;
 
-	private Integer expires_in;
+	private Long expires_in;
 
-	public TokenDto(String access_token, String token_type, Integer expires_in) {
+	public TokenDto(String access_token, String token_type, Long expires_in) {
 		super();
 		this.access_token = access_token;
 		this.token_type = token_type;
@@ -28,7 +28,7 @@ public class TokenDto {
 		return token_type;
 	}
 
-	public Integer getExpires_in() {
+	public Long getExpires_in() {
 		return expires_in;
 	}
 

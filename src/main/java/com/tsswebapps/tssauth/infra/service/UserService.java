@@ -18,7 +18,6 @@ public class UserService {
 	@Transactional
 	public UserDto saveUser(UserDto userDto) {
 		User user = repository.save(User.userInputDtoToUser(userDto));
-		System.out.println(user);
 		return UserDto.userToUserInputDto(user);
 	}
 	

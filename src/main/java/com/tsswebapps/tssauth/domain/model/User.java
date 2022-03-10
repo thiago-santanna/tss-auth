@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.tsswebapps.tssauth.dto.UserDto;
 
@@ -142,11 +143,14 @@ public class User implements UserDetails {
 				.map(r -> new Role(r.getId(), r.getDescription()))
 				.collect(Collectors.toList());
 		
-		return new User(user.getId(), user.getEmail(), user.getName(), user.getPassword(), getSecretKey(), roles);
+		BCryptPasswordEncoder bCriptEnconder = new BCryptPasswordEncoder(16);
+		String PasswordEncoded = bCriptEnconder.encode(user.getPassword());
+		
+		return new User(user.getId(), user.getEmail(), user.getName(), PasswordEncoded, getSecretKey(), roles);
 	}
 	
 	public static String getSecretKey() {
-		UUID uuid = UUID.randomUUID();
+		UUID uuid = UUID.randomUUID();	
 		return uuid.toString();
 	}
 
