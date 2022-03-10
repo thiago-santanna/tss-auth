@@ -9,12 +9,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.tsswebapps.tssauth.dto.RoleDto;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
@@ -70,6 +77,11 @@ public class Role {
 
 	public static Role roleDtoToRole(RoleDto roleDto) {
 		return new Role(roleDto.getId(), roleDto.getDescription());
+	}
+
+	@Override
+	public String getAuthority() {
+		return this.description;
 	}
 
 }
