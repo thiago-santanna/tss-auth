@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.tsswebapps.tssauth.TokenAuthenticateFilterMiddleware;
+import com.tsswebapps.tssauth.infra.service.generationToken.AuthToken;
 
 
 @Configuration
@@ -27,6 +28,9 @@ public class SecuityConfigurations extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private AuthenticatedService authenticatedService;
+	
+	@Autowired
+	private AuthToken authToken;
 	
 	@Override
 	@Bean
@@ -53,7 +57,7 @@ public class SecuityConfigurations extends WebSecurityConfigurerAdapter {
 			.cors().and().csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.addFilterBefore(new TokenAuthenticateFilterMiddleware(), UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(new TokenAuthenticateFilterMiddleware(authToken), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Bean

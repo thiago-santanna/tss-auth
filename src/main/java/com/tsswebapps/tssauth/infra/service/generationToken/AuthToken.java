@@ -5,4 +5,6 @@ import com.tsswebapps.tssauth.dto.TokenDto;
 
 public interface AuthToken {
 	TokenDto newToken( String issuer, String subject, String secret, Long expires_in);
+
+	boolean isValid(String tokenHeader);
 }

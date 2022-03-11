@@ -25,7 +25,7 @@ public class AuthTokenJjwt implements AuthToken {
 		Date toDay = new Date();
 		Date expiresDate = new Date( toDay.getTime() + expires_in);
 		
-		Key key = new SecretKeySpec( secret.getBytes() , SignatureAlgorithm.HS256.getJcaName());
+		Key key = new SecretKeySpec( this.secretJwt.getBytes() , SignatureAlgorithm.HS256.getJcaName());
 		
 		String accessToken = Jwts.builder()
 			.setIssuer(issuer)
@@ -36,6 +36,23 @@ public class AuthTokenJjwt implements AuthToken {
 			.compact();
 		
 		return new TokenDto(accessToken, "Bearer", expires_in);
+	}
+
+	@Override
+	public boolean isValid(String tokenHeader) {
+	    Key hmacKey = new SecretKeySpec(this.secretJwt.getBytes(), 
+	    		SignatureAlgorithm.HS256.getJcaName());
+		
+		try {
+			Jwts.parserBuilder()
+			.setSigningKey(hmacKey)
+			.build()
+			.parseClaimsJws(tokenHeader);
+			return true;
+			
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }
