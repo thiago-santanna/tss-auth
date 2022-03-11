@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.tsswebapps.tssauth.dto.TokenDto;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -25,27 +26,24 @@ public class AuthTokenJjwt implements AuthToken {
 		Date toDay = new Date();
 		Date expiresDate = new Date( toDay.getTime() + expires_in);
 		
-		Key key = new SecretKeySpec( this.secretJwt.getBytes() , SignatureAlgorithm.HS256.getJcaName());
+		//Key key = new SecretKeySpec( this.secretJwt.getBytes() , SignatureAlgorithm.HS256.getJcaName());
 		
 		String accessToken = Jwts.builder()
 			.setIssuer(issuer)
 			.setSubject(subject)
 			.setIssuedAt(toDay)
 			.setExpiration(expiresDate)
-			.signWith(key)
+			.signWith(getHmacKey())
 			.compact();
 		
 		return new TokenDto(accessToken, "Bearer", expires_in);
 	}
 
 	@Override
-	public boolean isValid(String tokenHeader) {
-	    Key hmacKey = new SecretKeySpec(this.secretJwt.getBytes(), 
-	    		SignatureAlgorithm.HS256.getJcaName());
-		
+	public boolean isValid(String tokenHeader) {		
 		try {
 			Jwts.parserBuilder()
-			.setSigningKey(hmacKey)
+			.setSigningKey(getHmacKey())
 			.build()
 			.parseClaimsJws(tokenHeader);
 			return true;
@@ -53,6 +51,22 @@ public class AuthTokenJjwt implements AuthToken {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public Long getUserIdToken(String tokenHeader) {
+		Claims body = Jwts.parserBuilder()
+		.setSigningKey(getHmacKey())
+		.build()
+		.parseClaimsJws(tokenHeader)
+		.getBody();
+
+		return Long.parseLong(body.getSubject());
+	}
+
+	private Key getHmacKey() {
+		return new SecretKeySpec(this.secretJwt.getBytes(), 
+	    		SignatureAlgorithm.HS256.getJcaName());
 	}
 
 }

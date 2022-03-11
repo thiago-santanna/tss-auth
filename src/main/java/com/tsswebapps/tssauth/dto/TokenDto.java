@@ -60,7 +60,7 @@ public class TokenDto {
 	}
 	
 	public static Token tokenDtoToToken(TokenDto tokenDto, User user) {
-		return new Token(null, tokenDto.getAccess_token(), tokenDto.getToken_type(), tokenDto.getExpires_in(), user);
+		return new Token(tokenDto.getAccess_token(), tokenDto.getToken_type(), tokenDto.getExpires_in(), user);
 	}
 
 }

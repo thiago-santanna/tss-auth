@@ -28,7 +28,7 @@ public class AuthService {
 		TokenDto tokenDto = authToken.newToken("WEBAPP", authenticatedUser.getId().toString(),
 				authenticatedUser.getSecret(), 1800000L);
 		
-		tokenService.execute(TokenDto.tokenDtoToToken(tokenDto, authenticatedUser));
+		//tokenService.execute(TokenDto.tokenDtoToToken(tokenDto, authenticatedUser));
 
 		return tokenDto;
 	}

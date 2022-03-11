@@ -31,8 +31,7 @@ public class Token {
 	@JoinColumn(referencedColumnName = "id", name = "user_id", unique = true)
 	private User user;
 	
-	public Token(Long id, String access_token, String token_type, Long expires_in, User user) {
-		this.id = id;
+	public Token( String access_token, String token_type, Long expires_in, User user) {
 		this.access_token = access_token;
 		this.token_type = token_type;
 		this.expires_in = expires_in;
@@ -99,6 +98,12 @@ public class Token {
 		return Objects.equals(access_token, other.access_token) && Objects.equals(expires_in, other.expires_in)
 				&& Objects.equals(id, other.id) && Objects.equals(token_type, other.token_type)
 				&& Objects.equals(user, other.user);
+	}
+
+	@Override
+	public String toString() {
+		return "Token [id=" + id + ", access_token=" + access_token + ", token_type=" + token_type + ", expires_in="
+				+ expires_in + ", user=" + user + "]";
 	}
 	
 }
