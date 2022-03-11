@@ -21,7 +21,7 @@ public class AuthController {
 		
 	@Autowired
 	private AuthService authService;
-
+	
 	@PostMapping
 	public ResponseEntity<TokenDto> onAuth(@RequestBody @Valid UserAuth user){
 		try {	

@@ -25,7 +25,7 @@ public class AuthTokenJjwt implements AuthToken {
 		Date toDay = new Date();
 		Date expiresDate = new Date( toDay.getTime() + expires_in);
 		
-		Key key = new SecretKeySpec( secretJwt.getBytes() , SignatureAlgorithm.HS256.getJcaName());
+		Key key = new SecretKeySpec( secret.getBytes() , SignatureAlgorithm.HS256.getJcaName());
 		
 		String accessToken = Jwts.builder()
 			.setIssuer(issuer)

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tsswebapps.tssauth.domain.model.User;
 
 public class UserDto {
@@ -12,6 +13,7 @@ public class UserDto {
 	private String name;
 	private String email;
 	private String password;
+	@JsonIgnore
 	private List<RoleDto> roles = new ArrayList<>();
 	
 	public UserDto() {

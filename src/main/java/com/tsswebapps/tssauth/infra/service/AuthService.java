@@ -17,6 +17,9 @@ public class AuthService {
 
 	@Autowired
 	private AuthToken authToken;
+	
+	@Autowired
+	private TokenService tokenService;
 
 	public TokenDto generationToken(UsernamePasswordAuthenticationToken userLogin) {
 		Authentication authenticate = authenticationManager.authenticate(userLogin);
@@ -24,6 +27,8 @@ public class AuthService {
 
 		TokenDto tokenDto = authToken.newToken("WEBAPP", authenticatedUser.getId().toString(),
 				authenticatedUser.getSecret(), 1800000L);
+		
+		tokenService.execute(TokenDto.tokenDtoToToken(tokenDto, authenticatedUser));
 
 		return tokenDto;
 	}

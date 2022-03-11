@@ -2,6 +2,9 @@ package com.tsswebapps.tssauth.dto;
 
 import java.util.Objects;
 
+import com.tsswebapps.tssauth.domain.model.Token;
+import com.tsswebapps.tssauth.domain.model.User;
+
 public class TokenDto {
 
 	private String access_token;
@@ -54,6 +57,10 @@ public class TokenDto {
 		TokenDto other = (TokenDto) obj;
 		return Objects.equals(access_token, other.access_token) && Objects.equals(expires_in, other.expires_in)
 				&& Objects.equals(token_type, other.token_type);
+	}
+	
+	public static Token tokenDtoToToken(TokenDto tokenDto, User user) {
+		return new Token(null, tokenDto.getAccess_token(), tokenDto.getToken_type(), tokenDto.getExpires_in(), user);
 	}
 
 }

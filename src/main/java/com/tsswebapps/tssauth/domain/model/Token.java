@@ -25,13 +25,13 @@ public class Token {
 	private String token_type;
 	
 	@Column(nullable = false)
-	private Integer expires_in;	
+	private Long expires_in;	
 	
 	@OneToOne
 	@JoinColumn(referencedColumnName = "id", name = "user_id", unique = true)
 	private User user;
 	
-	public Token(Long id, String access_token, String token_type, Integer expires_in, User user) {
+	public Token(Long id, String access_token, String token_type, Long expires_in, User user) {
 		this.id = id;
 		this.access_token = access_token;
 		this.token_type = token_type;
@@ -74,11 +74,11 @@ public class Token {
 		this.token_type = token_type;
 	}
 
-	public Integer getExpires_in() {
+	public Long getExpires_in() {
 		return expires_in;
 	}
 
-	public void setExpires_in(Integer expires_in) {
+	public void setExpires_in(Long expires_in) {
 		this.expires_in = expires_in;
 	}
 
